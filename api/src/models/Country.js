@@ -12,15 +12,15 @@ module.exports = (sequelize) => {
         unique: true,
         primaryKey: true,
       },
-      name: {
+      nombre: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      image: {
+      imagen: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      continent: {
+      continente: {
         type: DataTypes.STRING,
         allowNull: false,
       },
