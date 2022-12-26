@@ -1,4 +1,5 @@
 const { uploadCountry } = require("../routes/utils");
+const { Country, Activity } = require("../db");
 
 const getCountries = async (req, res) => {
   const { name } = req.query;
@@ -21,13 +22,18 @@ const getCountries = async (req, res) => {
 
 const getCountry = async (req, res) => {
   const { id } = req.params;
-  const allCountries = await uploadCountry();
+  //const allCountries = await uploadCountry();
   try {
     if (id) {
       //esto es redundante por que si o si va a tener id para entrar a esta ruta
-      const countryId = await allCountries.find((country) =>
-        country.id.toLowerCase().includes(id.toLowerCase())
-      );
+
+      // const countryId = await allCountries.find((country) =>
+      //   country.id.toLowerCase().includes(id.toLowerCase())
+      // );
+      const countryId = await Country.findByPk(id.toUpperCase(), {
+        include: Activity,
+      });
+
       countryId
         ? res.status(200).send(countryId)
         : res.status(400).send("Country Id not found");
