@@ -12,15 +12,15 @@ module.exports = (sequelize) => {
         unique: true,
         primaryKey: true,
       },
-      nombre: {
+      name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      imagen: {
+      image: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      continente: {
+      continent: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -37,16 +37,13 @@ module.exports = (sequelize) => {
         allowNull: true,
         //getter para mostrarlo en km!
         get() {
-          return this.getDataValue("area") + "km2";
+          return this.getDataValue("area") + " km2";
         },
       },
-      poblacion: {
+      population: {
         type: DataTypes.INTEGER,
         allowNull: true,
-        //getter para mostrar como millones
-        get() {
-          return this.getDataValue("poblacion");
-        },
+        //getter para mostrar como millones? no hace falta
       },
     },
     {
