@@ -7,17 +7,17 @@ module.exports = (sequelize) => {
   sequelize.define(
     "activity",
     {
-      nombre: {
+      name: {
         type: DataTypes.STRING,
       },
-      dificultad: {
+      difficulty: {
         type: DataTypes.ENUM("1", "2", "3", "4", "5"),
       },
-      duracion: {
+      duration: {
         type: DataTypes.INTEGER,
       },
-      temporada: {
-        type: DataTypes.ENUM("Verano", "Otoño", "Invierno", "Primavera"),
+      season: {
+        type: DataTypes.ENUM("verano", "otoño", "invierno", "primavera"),
       },
     },
     {
