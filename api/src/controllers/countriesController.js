@@ -19,6 +19,12 @@ const getCountries = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+//const allCountries = await uploadCountry();
+// const countriesNames = await allCountries.filter(
+//   (country) => country.name.toLowerCase() === name.toLowerCase()
+// );
+//let result = name? countriesNames : allCountries
+// res.status(200).send(result)
 
 const getCountry = async (req, res) => {
   const { id } = req.params;
