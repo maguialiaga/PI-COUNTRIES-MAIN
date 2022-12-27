@@ -1,0 +1,6 @@
+.contain {
+  display: flexbox;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1em;
+}
