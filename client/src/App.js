@@ -3,7 +3,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Home from "./views/Home/Home";
 // import NavBar from "./components/NavBar/Navbar";
-import LandingPage from "./components/Landing/LandingPage";
+import LandingPage from "./views/Landing/LandingPage";
 // import Error from "./components/Error/Error";
 // import FormActivity from "./components/Form/FormActivity";
 // import Detail from "./components/Detail/Detail";
