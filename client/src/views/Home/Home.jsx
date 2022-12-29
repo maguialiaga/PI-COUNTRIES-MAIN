@@ -1,10 +1,15 @@
 import React from "react";
-import CountriesCards from "../../components/Paginado/CountriesCards";
+//import styles from "./Home/Home.modules.css"
+//import { Link } from "react-router-dom";
+//import { getAllCountries } from "../../redux/actions";
+import CountryCard from "../../components/CountryCard/CountryCard";
+import SearchBar from "../../components/SearchBar/SearchBar";
 
 function Home() {
   return (
     <div>
-      <CountriesCards />
+      <SearchBar />
+      <CountryCard />
     </div>
   );
 }
