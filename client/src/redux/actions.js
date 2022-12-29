@@ -4,13 +4,14 @@ import axios from "axios";
 export const GET_ALL_COUNTRIES = "GET_ALL_COUNTRIES";
 export const GET_DETAIL = "GET_DETAIL=";
 export const GET_COUNTRY_BY_NAME = "GET_COUNTRY_BY_NAME";
-export const FILTER_BY_ALPHABET = "FILTER_BY_ALPHABET";
+export const ORDER_BY_POPULATION = "ORDER_BY_POPULATION";
+export const ORDER_BY_ALPHABET = "ORDER_BY_ALPHABET";
 export const FILTER_BY_CONTINENT = "FILTER_BY_CONTINENT";
-export const FILTER_BY_POPULATION = "FILTER_BY_POPULATION";
 export const FILTER_BY_ACTIVITY = "FILTER_BY_ACTIVITY";
 export const POST_ACTIVITY = "POST_ACTIVITY";
 export const GET_ACTIVITY = "GET_ACTIVITY";
 export const REMOVE_ACTIVITY = "REMOVE_ACTIVITY";
+export const CLEAN_DETAIL = "CLEAN_DETAIL";
 
 //creo las funciones ACTIONS CREATORS
 export const getAllCountries = () => {
@@ -51,15 +52,16 @@ export const getCountryByName = (name) => {
   };
 };
 
-export const filterByAlphabet = (payload) => {
-  return { type: FILTER_BY_ALPHABET, payload };
+export const orderByPopulation = (payload) => {
+  return { type: ORDER_BY_POPULATION, payload };
+};
+
+export const orderByAlphabet = (payload) => {
+  return { type: ORDER_BY_ALPHABET, payload };
 };
 
 export const filterByContinent = (payload) => {
   return { type: FILTER_BY_CONTINENT, payload };
-};
-export const filterByPopulation = (payload) => {
-  return { type: FILTER_BY_POPULATION, payload };
 };
 
 export const filterByActivity = (payload) => {
@@ -89,4 +91,8 @@ export const getActivity = () => {
 
 export const removeActivity = (id) => {
   return { type: REMOVE_ACTIVITY, payload: id };
+};
+
+export const cleanDetail = () => {
+  return { type: CLEAN_DETAIL };
 };

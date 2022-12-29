@@ -2,13 +2,14 @@ import {
   GET_ALL_COUNTRIES,
   GET_DETAIL,
   GET_COUNTRY_BY_NAME,
-  FILTER_BY_ALPHABET,
+  ORDER_BY_POPULATION,
+  ORDER_BY_ALPHABET,
   FILTER_BY_CONTINENT,
-  FILTER_BY_POPULATION,
   FILTER_BY_ACTIVITY,
   POST_ACTIVITY,
   GET_ACTIVITY,
   REMOVE_ACTIVITY,
+  CLEAN_DETAIL,
 } from "./actions";
 
 const initialState = {
@@ -41,7 +42,7 @@ const reducer = (state = initialState, action) => {
         countries: action.payload,
       };
 
-    case FILTER_BY_ALPHABET:
+    case ORDER_BY_ALPHABET:
       const ordered =
         action.payload === "asc"
           ? //si el valor que me pasan es "asc" entonces el ordenamiento del array va a ser de A-Z
@@ -73,7 +74,7 @@ const reducer = (state = initialState, action) => {
         countries: filtered,
       };
 
-    case FILTER_BY_POPULATION:
+    case ORDER_BY_POPULATION:
       const order =
         action.payload === "higher"
           ? state.countries.sort((a, b) => {
@@ -123,8 +124,13 @@ const reducer = (state = initialState, action) => {
           ...state.activities.filter((act) => act.id !== action.payload),
         ],
       };
+    case CLEAN_DETAIL:
+      return {
+        ...state,
+        country: [],
+      };
 
-    //primero hacer el caso default por si no coincide con ninguna action
+    //primero hacer el caso default por si no coincide con ninguna action--> devolver el estado como estaba
     default:
       return { ...state };
   }
