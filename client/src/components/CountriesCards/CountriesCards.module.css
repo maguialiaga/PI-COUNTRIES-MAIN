@@ -1,6 +1,10 @@
 .contain {
-  display: flexbox;
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 1em;
+  gap: 0.5em;
+  align-items: center;
+  justify-content: space-around;
+  padding: 1em;
+  background-color: #ececec;
 }
