@@ -8,7 +8,9 @@ import React from "react";
 
 function Paginado(props) {
   const pageNumbers = [];
-  for (let i = 0; i < Math.ceil(props.countries / 9); i++) {}
+  for (let i = 0; i < Math.ceil(props.countries / 9); i++) {
+    pageNumbers.push(i);
+  }
 
   return <div></div>;
 }
