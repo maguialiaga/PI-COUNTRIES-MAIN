@@ -14,7 +14,7 @@ import {
 
 const initialState = {
   allCountries: [], //donde guardo todos los paises de la api y los muestro apenas entra al home
-  countries: [], //voy a hacer todos los filtrados con este array y la busqueda de la searchBar tambien
+  countries: [], //voy a hacer todos los filtrados con este array, paginado y la busqueda de la searchBar tambien
   country: [], //para el detalle de cada pais
   activities: [], //las actividades de cada pais
 };
