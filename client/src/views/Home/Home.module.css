@@ -1,0 +1,59 @@
+.contHome {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  /* flex-wrap: wrap;
+  gap: 0.5;
+  align-items: center;
+  justify-content: space-around;
+  padding: 1em; */
+  /* background-color: #ececec; */
+}
+
+.navBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #9fd3c7;
+  max-height: 3rem;
+  padding: 0.5rem;
+}
+
+.navIzq {
+  min-height: 4rem;
+  max-height: 5rem;
+}
+
+.navDer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.div_countries {
+}
+
+.buttonCreate {
+}
+
+.buttonRef {
+}
+
+.refresh {
+}
+
+.filters {
+}
+
+.order {
+}
+
+.div_selectAll {
+}
+
+.created {
+}
+
+.pagi {
+}
