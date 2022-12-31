@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   getAllCountries,
   orderByAlphabet,
@@ -60,17 +60,17 @@ function Home() {
       <div>
         <div className={styles.navBar}>
           <div className={styles.navIzq}>
-            <NavLink to="/">
+            <Link to="/">
               <img src={back} alt="back" className={styles.arrowBack}></img>
-            </NavLink>
+            </Link>
           </div>
 
           <SearchBar />
 
           <div className={styles.navDer}>
-            <NavLink to="/home/createActivity">
+            <Link to="/home/createActivity">
               <button className={styles.buttonCreate}>Create Activity</button>
-            </NavLink>
+            </Link>
           </div>
 
           <button onClick={handleClick} className={styles.buttonRef}>
@@ -100,13 +100,13 @@ function Home() {
               className={styles.div_selectAll}
             >
               <option value="All">All</option>
-              <option value="north america">North America</option>
-              <option value="south america">South America</option>
-              <option value="africa">Africa</option>
-              <option value="asia">Asia</option>
-              <option value="europe">Europe</option>
-              <option value="antartica">Antartica</option>
-              <option value="oceania">Oceania</option>
+              <option value="North america">North America</option>
+              <option value="South america">South America</option>
+              <option value="Africa">Africa</option>
+              <option value="Asia">Asia</option>
+              <option value="Europe">Europe</option>
+              <option value="Antartica">Antartica</option>
+              <option value="Oceania">Oceania</option>
             </select>
             <select
               onChange={(e) => handleFilterAct(e)}
