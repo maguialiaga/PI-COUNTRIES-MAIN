@@ -10,6 +10,8 @@ import {
   GET_ACTIVITY,
   REMOVE_ACTIVITY,
   CLEAN_DETAIL,
+  RESET_COUNTRIES,
+  SET_CURRENT_PAGE,
 } from "./actions";
 
 const initialState = {
@@ -17,6 +19,7 @@ const initialState = {
   countries: [], //voy a hacer todos los filtrados con este array, paginado y la busqueda de la searchBar tambien
   country: [], //para el detalle de cada pais
   activities: [], //las actividades de cada pais
+  currentPage: 1, // en la pagina que arranca
 };
 
 const reducer = (state = initialState, action) => {
@@ -40,6 +43,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         countries: action.payload,
+        currentPage: 1,
       };
 
     case ORDER_BY_ALPHABET:
@@ -61,6 +65,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         countries: ordered,
+        currentPage: 1,
       };
 
     case FILTER_BY_CONTINENT:
@@ -72,6 +77,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         countries: filtered,
+        currentPage: 1,
       };
 
     case ORDER_BY_POPULATION:
@@ -90,6 +96,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         countries: order,
+        currentPage: 1,
       };
 
     case FILTER_BY_ACTIVITY:
@@ -106,6 +113,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         countries: filterAct,
+        currentPage: 1,
       };
     case POST_ACTIVITY:
       return {
@@ -128,6 +136,18 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         country: [],
+      };
+    case RESET_COUNTRIES:
+      const resetCountries = [...state.allCountries];
+      return {
+        ...state,
+        countries: resetCountries,
+        currentPage: 1,
+      };
+    case SET_CURRENT_PAGE:
+      return {
+        ...state,
+        currentPage: action.payload,
       };
 
     //primero hacer el caso default por si no coincide con ninguna action--> devolver el estado como estaba

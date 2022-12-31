@@ -12,6 +12,8 @@ export const POST_ACTIVITY = "POST_ACTIVITY";
 export const GET_ACTIVITY = "GET_ACTIVITY";
 export const REMOVE_ACTIVITY = "REMOVE_ACTIVITY";
 export const CLEAN_DETAIL = "CLEAN_DETAIL";
+export const RESET_COUNTRIES = "RESET_COUNTRIES";
+export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 
 //creo las funciones ACTIONS CREATORS
 export const getAllCountries = () => {
@@ -95,4 +97,12 @@ export const removeActivity = (id) => {
 
 export const cleanDetail = () => {
   return { type: CLEAN_DETAIL };
+};
+
+export const resetCountries = () => {
+  return { type: RESET_COUNTRIES };
+};
+
+export const setCurrentPage = (payload) => {
+  return { type: SET_CURRENT_PAGE, payload };
 };
