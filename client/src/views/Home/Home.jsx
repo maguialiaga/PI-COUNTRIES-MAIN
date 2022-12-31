@@ -1,59 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   getAllCountries,
   orderByAlphabet,
   orderByPopulation,
   filterByContinent,
   filterByActivity,
-  getActivity,
+  // getActivity,
+  // resetCountries,
 } from "../../redux/actions";
 
-import CountryCard from "../../components/CountryCard/CountryCard";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import Loading from "../../components/Loading/Loading";
 import Paginado from "../../components/Paginado/Paginado";
 import styles from "../Home/Home.module.css";
 //import world from "../../styles/Images/world.png";
 //import refresh from "../../styles/Images/refresh.png";
+import back from "../../styles/Images/atras.png";
 
 function Home() {
   const dispatch = useDispatch();
 
   //Me traigo del estado global:
-  const totalCountries = useSelector((state) => state.countries);
   const totalAct = useSelector((state) => state.activities);
-  const countriesCopy = useSelector((state) => state.allCountries);
-
-  //Ahora creo los estados locales que tambien puedo pasar como props
-  const [currentPage, setCurrentPage] = useState(1); //pagina actual
-  const [countryPerPage] = useState(9); //cantidad de paises por pagina
+  // const countriesCopy = useSelector((state) => state.allCountries);
 
   useEffect(() => {
-    dispatch(getAllCountries()); //componentDidMount y componentDidUpdate
-    dispatch(getActivity());
+    dispatch(getAllCountries()); //mapDispatchToProps
+    // dispatch(getActivity());
   }, [dispatch]);
 
-  //----------------------------------------------------------------------------------------------------------
-  //Para paginado
-
-  //indice del ultimo pais por pagina
-  const lastCountry = (currentPage) => {
-    if (currentPage === 1) return 9;
-    return currentPage * countryPerPage - 1;
-  };
-  //indice del primer pais por pagina
-  const firstCountry = (lastCountry, countryPerPage) => {
-    if (currentPage === 1) return 0;
-    return lastCountry - countryPerPage;
-  };
-
-  //Arreglo de paises por pagina
-  const currentCountries = totalCountries.slice(firstCountry, lastCountry);
-  const paginado = (pageNum) => setCurrentPage(pageNum);
-
-  //----------------------------------------------------------------------------------------------------------
   const handleClick = () => {
     dispatch(getAllCountries());
   };
@@ -61,25 +37,21 @@ function Home() {
   const handleOrderAlph = (e) => {
     const value = e.target.value;
     dispatch(orderByAlphabet(value));
-    setCurrentPage(1);
   };
 
   const handleOrderPopu = (e) => {
     const value = e.target.value;
     dispatch(orderByPopulation(value));
-    setCurrentPage(1);
   };
 
   const handleFilterCont = (e) => {
     const value = e.target.value;
     dispatch(filterByContinent(value));
-    setCurrentPage(1);
   };
 
   const handleFilterAct = (e) => {
     const value = e.target.value;
     dispatch(filterByActivity(value));
-    setCurrentPage(1);
   };
 
   //----------------------------------------------------------------------------------------------------------
@@ -88,20 +60,20 @@ function Home() {
       <div>
         <div className={styles.navBar}>
           <div className={styles.navIzq}>
-            <Link to="/">
-              <p>Go back</p>
-            </Link>
+            <NavLink to="/">
+              <img src={back} alt="back" className={styles.arrowBack}></img>
+            </NavLink>
           </div>
 
           <SearchBar />
 
           <div className={styles.navDer}>
             <NavLink to="/home/createActivity">
-              <button className={styles.buttonCreate}>create activity</button>
+              <button className={styles.buttonCreate}>Create Activity</button>
             </NavLink>
           </div>
 
-          <button onClick={handleClick()} className={styles.buttonRef}>
+          <button onClick={handleClick} className={styles.buttonRef}>
             {/* <img src={refresh} alt="refresh" className={styles.refresh}></img> */}
             Refresh
           </button>
@@ -147,7 +119,17 @@ function Home() {
             </select>
           </div>
         </div>
-        <div className={styles.div_countries}>
+        <div className={styles.pagi}>
+          <Paginado />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Home;
+
+/* <div className={styles.div_countries}>
           {currentCountries > 0 ? (
             currentCountries.map((country) => {
               return (
@@ -169,15 +151,4 @@ function Home() {
             </div>
           )}
         </div>
-        <div className={styles.pagi}>
-          <Paginado
-            totalCountries={totalCountries.length}
-            paginado={paginado}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default Home;
+*/
