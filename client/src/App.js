@@ -5,7 +5,7 @@ import Home from "./views/Home/Home";
 import LandingPage from "./views/Landing/LandingPage";
 import Error from "./views/Error/Error";
 import FormActivity from "./views/Form/FormActivity";
-import Detail from "./views/Detail/Detail";
+import Detail from "./components/Detail/Detail";
 
 function App() {
   return (
