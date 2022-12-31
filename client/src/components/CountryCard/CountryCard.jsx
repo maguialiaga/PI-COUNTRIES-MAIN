@@ -8,7 +8,7 @@ function CountryCard({ name, image, continent, id }) {
   //le hago destructuring de mi objeto de props
   return (
     <Link to={`/home/${id}`} className={styles.card}>
-      <div>
+      <div className={styles.cont}>
         <img src={image} alt="img" className={styles.img} />
         <p className={styles.name}>{name}</p>
         <p className={styles.continent}>{continent}</p>

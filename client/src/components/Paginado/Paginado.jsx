@@ -8,7 +8,7 @@ import React from "react";
 import styles from "../Paginado/Paginado.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentPage } from "../../redux/actions";
-import Loading from "../Loading/Loading";
+// import Loading from "../Loading/Loading";
 import CountryCard from "../../components/CountryCard/CountryCard";
 
 // const showCards = (data) => {
@@ -29,7 +29,7 @@ function Paginado() {
   //Saco del estado global el currentPage
   const currentPage = useSelector((state) => state.currentPage);
   const totalCountries = useSelector((state) => state.countries);
-  const countriesCopy = useSelector((state) => state.allCountries);
+  // const countriesCopy = useSelector((state) => state.allCountries);
   //Ahora creo los estados locales
   const [countriesPerPage] = useState(9); //cantidad de paises por pagina = 9
 
@@ -64,24 +64,31 @@ function Paginado() {
     );
   });
 
-  const handlePrev = () => {};
-  const handleNext = () => {};
+  const handleNext = () => {
+    if (currentPage + 1 <= pages.length)
+      dispatch(setCurrentPage(currentPage + 1));
+    return null;
+  };
+  const handlePrev = () => {
+    if (currentPage - 1 >= 1) dispatch(setCurrentPage(currentPage - 1));
+    return null;
+  };
 
   return (
     <>
-      <div>
-        {currentCountries > 0 ? (
-          currentCountries.map((country) => {
-            return (
-              <CountryCard
-                name={country.name}
-                image={country.image}
-                continent={country.continent}
-                id={country.id}
-              />
-            );
-          })
-        ) : countriesCopy < 0 ? (
+      <div className={styles.contCards}>
+        {/* {currentCountries > 0 ? ( */}
+        {currentCountries.map((country) => {
+          return (
+            <CountryCard
+              name={country.name}
+              image={country.image}
+              continent={country.continent}
+              id={country.id}
+            />
+          );
+        })}
+        {/* ) : countriesCopy > 0 ? (
           <Loading />
         ) : (
           <div>
@@ -89,7 +96,7 @@ function Paginado() {
               <b>There are no countries with those features</b>
             </p>
           </div>
-        )}
+        )} */}
       </div>
 
       <div>
