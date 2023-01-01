@@ -12,17 +12,30 @@ const validate = (input) => {
 
 function FormActivity() {
   const dispatch = useDispatch();
-  const totalCOuntries = useSelector((state) => state.countries);
+  const totalCountries = useSelector((state) => state.countries);
   const [input, setInput] = useState({
     name: "",
     difficulty: 0,
     duration: "",
     season: "",
   });
+  const [error, setError] = useState({});
 
   const difficulties = ["Difficulties", "1", "2", "3", "4", "5"];
   const duration = ["Duration", "30 min", "1 Hour", "2 Hours", "6 Hours"];
   const seasons = ["Seasons", "Fall", "Winter", "Spring", "Summer"];
+  //los ordeno de mayor a menor
+  totalCountries.sort((a, b) => {
+    if (a.name > b.name) return 1;
+    if (a.name < b.name) return -1;
+    return 0;
+  });
+
+  const handleSubmit = (e) => {};
+  const handleSelectDuration = (e) => {};
+  const handleSelectDifficulty = (e) => {};
+  const handleSelectSeason = (e) => {};
+  const handleSelectCountry = (e) => {};
 
   return (
     <div className={styles.contPag}>
@@ -39,10 +52,12 @@ function FormActivity() {
           <div className={styles.title}>Create your own tourist activity</div>
 
           <div className={styles.cardForm}>
-            <form>
+            <form onSubmit={(e) => handleSubmit(e)}>
               <div className={styles.form}>
                 <div>
-                  <div>Name:</div>
+                  <label className={styles.name}>
+                    <b>Name:</b>
+                  </label>
                   <input
                     type="text"
                     value={input.name}
@@ -53,36 +68,53 @@ function FormActivity() {
                 </div>
 
                 <div>
-                  <div>Difficulty:</div>
-                  <input
-                    type="number"
-                    value={input.difficulty}
-                    name="difficulty"
-                    placeholder="Difficulty"
-                    className={styles.inputs}
-                  />
+                  <select
+                    onChange={(e) => handleSelectDuration(e)}
+                    className={styles.selectBox}
+                  >
+                    {duration.map((duration) => (
+                      <option value={duration}>{duration}</option>
+                    ))}
+                  </select>
                 </div>
                 <div>
-                  <div>Duration:</div>
-                  <input
-                    type="number"
-                    value={input.duration}
-                    name="duration"
-                    placeholder="1-24 Hours"
-                    className={styles.inputs}
-                  />
+                  <select
+                    onChange={(e) => handleSelectDifficulty(e)}
+                    className={styles.selectBox}
+                  >
+                    {difficulties.map((difficulty) => (
+                      <option value={difficulty}>{difficulty}</option>
+                    ))}
+                  </select>
                 </div>
+
                 <div>
-                  <div>Season:</div>
-                  <input
-                    type="text"
-                    value={input.duration}
-                    name="duration"
-                    placeholder="Duration"
-                    className={styles.inputs}
-                  />
+                  <select
+                    onChange={(e) => handleSelectSeason(e)}
+                    className={styles.selectBox}
+                  >
+                    {seasons.map((seasons) => (
+                      <option value={seasons}>{seasons}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <select
+                    onChange={(e) => handleSelectCountry(e)}
+                    className={styles.selectBox}
+                  >
+                    {totalCountries.map((country) => (
+                      <option value={country.name} id={country.id}>
+                        {country.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
+              <button type="submit" className={styles.submitButton}>
+                CREATE
+              </button>
             </form>
           </div>
         </div>
