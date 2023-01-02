@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -7,10 +7,13 @@ import {
   orderByPopulation,
   filterByContinent,
   filterByActivity,
-  // getActivity,
+  getActivity,
+  // setCurrentPage,
   // resetCountries,
 } from "../../redux/actions";
 
+import CountryCard from "../../components/CountryCard/CountryCard";
+import Loading from "../../components/Loading/Loading";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Paginado from "../../components/Paginado/Paginado";
 import styles from "../Home/Home.module.css";
@@ -22,36 +25,75 @@ function Home() {
   const dispatch = useDispatch();
 
   //Me traigo del estado global:
+  // const currentPage = useSelector((state) => state.currentPage);
   const totalAct = useSelector((state) => state.activities);
-  // const countriesCopy = useSelector((state) => state.allCountries);
+  const allCountries = useSelector((state) => state.countries);
+
+  //Ahora creo los estados locales
+  const [currentPage, setCurrentPage] = useState(1);
+  const [countriesPerPage, setCountriesPerPage] = useState(9); //cantidad de paises por pagina = 9
+
+  //estos estados locales me sirven para cuando se actualicen, me los renderice!!
+  const [alphOrder, setAlphOrder] = useState("");
+  const [popOrder, setPopOrder] = useState("");
+  const [continenOrder, setContinentOrder] = useState("");
+  const [activity, setActivity] = useState("");
+
+  const indexLastCountries = currentPage * countriesPerPage;
+  const indexFirstCountries = indexLastCountries - countriesPerPage;
+  const currentCountries = allCountries.slice(
+    indexFirstCountries,
+    indexLastCountries
+  ); // me dice de donde a donde se va a cortar mi array con el primero y el ultimo ---> siendo estos 9 en total
+
+  const paginado = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   useEffect(() => {
     dispatch(getAllCountries()); //mapDispatchToProps
-    // dispatch(getActivity());
+    dispatch(getActivity());
   }, [dispatch]);
 
   const handleClick = () => {
     dispatch(getAllCountries());
+    setCurrentPage(1);
   };
 
   const handleOrderAlph = (e) => {
     const value = e.target.value;
+    // if (value === "All") {
+    //   return dispatch(getAllCountries());
+    // } else {
     dispatch(orderByAlphabet(value));
+    setAlphOrder(value);
+    setCurrentPage(1);
+    // }
   };
 
   const handleOrderPopu = (e) => {
     const value = e.target.value;
+    // if (value === "All") {
+    //   return dispatch(getAllCountries());
+    // } else {
     dispatch(orderByPopulation(value));
+    setCurrentPage(1);
+    setPopOrder(value);
+    // }
   };
 
   const handleFilterCont = (e) => {
     const value = e.target.value;
     dispatch(filterByContinent(value));
+    setCurrentPage(1);
+    setContinentOrder(value);
   };
 
   const handleFilterAct = (e) => {
     const value = e.target.value;
     dispatch(filterByActivity(value));
+    setCurrentPage(1);
+    setActivity(value);
   };
 
   //----------------------------------------------------------------------------------------------------------
@@ -83,36 +125,66 @@ function Home() {
               onChange={(e) => handleOrderAlph(e)}
               className={styles.order}
             >
-              <option value="All">Order</option>
-              <option value="asc">A-Z</option>
-              <option value="desc">Z-A</option>
+              <option value="All" key="All">
+                Order
+              </option>
+              <option value="asc" key="A-Z">
+                A-Z
+              </option>
+              <option value="dec" key="Z-A">
+                Z-A
+              </option>
             </select>
             <select
               onChange={(e) => handleOrderPopu(e)}
               className={styles.div_selectAll}
             >
-              <option value="All">All</option>
-              <option value="higher">Higher</option>
-              <option value="lower">Lower</option>
+              <option value="All" key="All">
+                All
+              </option>
+              <option value="min" key="min">
+                Min Population
+              </option>
+              <option value="max" key="max">
+                Max Population
+              </option>
             </select>
             <select
               onChange={(e) => handleFilterCont(e)}
               className={styles.div_selectAll}
             >
-              <option value="All">All</option>
-              <option value="North america">North America</option>
-              <option value="South america">South America</option>
-              <option value="Africa">Africa</option>
-              <option value="Asia">Asia</option>
-              <option value="Europe">Europe</option>
-              <option value="Antartica">Antartica</option>
-              <option value="Oceania">Oceania</option>
+              <option value="All" key="All">
+                All
+              </option>
+              <option value="Africa" key="Africa">
+                Africa
+              </option>
+              <option value="Asia" key="Asia">
+                Asia
+              </option>
+              <option value="Europe" key="Europe">
+                Europe
+              </option>
+              <option value="Antartica" key="Antartica">
+                Antartica
+              </option>
+              <option value="Oceania" key="Oceania">
+                Oceania
+              </option>
+              <option value="South America" key="South America">
+                South America
+              </option>
+              <option value="North America" key="North america">
+                North America
+              </option>
             </select>
             <select
               onChange={(e) => handleFilterAct(e)}
               className={styles.created}
             >
-              <option value="All">Activities</option>
+              <option value="All" key="All">
+                Activities
+              </option>
               {totalAct.map((act) => {
                 return <option value={act.name}>{act.name}</option>;
               })}
@@ -120,8 +192,40 @@ function Home() {
           </div>
         </div>
         <div className={styles.pagi}>
-          <Paginado />
+          <Paginado
+            paginado={paginado}
+            currentPage={currentPage}
+            countriesPerPage={countriesPerPage}
+            allCountries={allCountries.length}
+            setCountriesPerPage={setCountriesPerPage}
+          />
         </div>
+        <div className={styles.contCards}>
+          {currentCountries.length ? (
+            currentCountries.map((c) => {
+              return (
+                <CountryCard
+                  name={c.name}
+                  image={c.image}
+                  continent={c.continent}
+                  id={c.id}
+                />
+              );
+            })
+          ) : (
+            <Loading />
+          )}
+        </div>
+
+        {/* <div className={styles.pagi}>
+          <Paginado
+            paginado={paginado}
+            currentPage={currentPage}
+            countriesPerPage={countriesPerPage}
+            allCountries={allCountries.length}
+            setCountriesPerPage={setCountriesPerPage}
+          />
+        </div> */}
       </div>
     </div>
   );
