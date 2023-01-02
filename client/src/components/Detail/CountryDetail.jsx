@@ -18,12 +18,30 @@ function CountryDetail({
       <img src={image} alt="flag" className={styles.flag}></img>
       <h3 className={styles.name}>{name}</h3>
       <div className={styles.info}>
-        <p className={styles.p}>{id}</p>
-        <p className={styles.p}>{continent}</p>
-        <p className={styles.p}>{capital}</p>
-        <p className={styles.p}>{subregion}</p>
-        <p className={styles.p}>{area}</p>
-        <p className={styles.p}>{population}</p>
+        <p className={styles.p}>
+          <b>#</b>
+          {id}
+        </p>
+        <p className={styles.p}>
+          <b>Continent</b>
+          {continent}
+        </p>
+        <p className={styles.p}>
+          <b>Capital</b>
+          {capital}
+        </p>
+        <p className={styles.p}>
+          <b>SubRegion</b>
+          {subregion}
+        </p>
+        <p className={styles.p}>
+          <b>Area</b>
+          {area}
+        </p>
+        <p className={styles.p}>
+          <b>Population</b>
+          {population}
+        </p>
       </div>
     </section>
   );

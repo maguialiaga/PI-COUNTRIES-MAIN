@@ -17,7 +17,7 @@ function Detail(props) {
   useEffect(() => {
     dispatch(getDetail(countryId));
     return function () {
-      dispatch(cleanDetail()); // me lo limpia al que estaba antes cuando vuelvo a entrar
+      dispatch(cleanDetail()); // me lo limpia al que estaba antes cuando vuelvo a entrar con otro detail
     };
   }, [dispatch, countryId]);
 
@@ -49,7 +49,7 @@ function Detail(props) {
             {country.activities?.length > 0 ? (
               country.activities.map((act) => {
                 return (
-                  <div className={styles}>
+                  <div className={styles} key={act.id}>
                     <ActivityDetail
                       name={act.name}
                       difficulty={act.difficulty}
