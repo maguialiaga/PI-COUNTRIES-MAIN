@@ -27,7 +27,7 @@ export const getAllCountries = () => {
   };
 };
 
-export const getDeatil = (id) => {
+export const getDetail = (id) => {
   return function (dispatch) {
     return fetch(`http://localhost:3001/countries/:${id}`)
       .then((res) => res.json())
