@@ -1,6 +1,6 @@
 import axios from "axios";
 
-//planteo las ACTIONS TYPES las guardo en variables
+//planteo las ACTIONS TYPES las guardo en constantes
 export const GET_ALL_COUNTRIES = "GET_ALL_COUNTRIES";
 export const GET_DETAIL = "GET_DETAIL=";
 export const GET_COUNTRY_BY_NAME = "GET_COUNTRY_BY_NAME";
@@ -8,12 +8,14 @@ export const ORDER_BY_POPULATION = "ORDER_BY_POPULATION";
 export const ORDER_BY_ALPHABET = "ORDER_BY_ALPHABET";
 export const FILTER_BY_CONTINENT = "FILTER_BY_CONTINENT";
 export const FILTER_BY_ACTIVITY = "FILTER_BY_ACTIVITY";
-export const POST_ACTIVITY = "POST_ACTIVITY";
 export const GET_ACTIVITY = "GET_ACTIVITY";
 export const REMOVE_ACTIVITY = "REMOVE_ACTIVITY";
 export const CLEAN_DETAIL = "CLEAN_DETAIL";
-export const RESET_COUNTRIES = "RESET_COUNTRIES";
-export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
+export const POST_ACTIVITY = "POST_ACTIVITY";
+export const ERROR_CASE = "ERROR_CASE";
+export const LOADING = "LOADING";
+// export const RESET_COUNTRIES = "RESET_COUNTRIES";
+// export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 
 //creo las funciones ACTIONS CREATORS
 export const getAllCountries = () => {
@@ -28,17 +30,21 @@ export const getAllCountries = () => {
 };
 
 export const getDetail = (id) => {
-  return function (dispatch) {
-    return fetch(`http://localhost:3001/countries/:${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        dispatch({ type: GET_DETAIL, payload: data });
-      })
-      .catch();
+  return async function (dispatch) {
+    try {
+      dispatch({ type: LOADING });
+      const response = await axios.get(`http://localhost:3001/countries/${id}`);
+      return dispatch({
+        type: GET_DETAIL,
+        payload: response.data,
+      });
+    } catch (error) {
+      return { error: error.message };
+    }
   };
 };
 
-export const getCountryByName = (name) => {
+export const getCountryByName = (name, payContinent) => {
   return async function (dispatch) {
     try {
       const response = await axios(
@@ -47,6 +53,7 @@ export const getCountryByName = (name) => {
       return dispatch({
         type: GET_COUNTRY_BY_NAME,
         payload: response.data,
+        payContinent: payContinent, //me llega en que filtro de continente esta
       });
     } catch (error) {
       return { error: error.message };
@@ -72,8 +79,12 @@ export const filterByActivity = (payload) => {
 
 export const postActivity = (payload) => {
   return async function (dispatch) {
-    const response = axios.post("http://localhost:3001/activities", payload);
-    return dispatch({ type: POST_ACTIVITY, payload: response.data });
+    const response = await axios.post(
+      "http://localhost:3001/activities",
+      payload
+    );
+    console.log(response);
+    return response;
   };
 };
 
@@ -99,10 +110,18 @@ export const cleanDetail = () => {
   return { type: CLEAN_DETAIL };
 };
 
-export const resetCountries = () => {
-  return { type: RESET_COUNTRIES };
+export const errorCase = (payload) => {
+  return { type: ERROR_CASE, payload };
 };
 
-export const setCurrentPage = (payload) => {
-  return { type: SET_CURRENT_PAGE, payload };
+export const loading = (payload) => {
+  return { type: LOADING, payload };
 };
+
+// export const resetCountries = () => {
+//   return { type: RESET_COUNTRIES };
+// };
+
+// export const setCurrentPage = (payload) => {
+//   return { type: SET_CURRENT_PAGE, payload };
+// };

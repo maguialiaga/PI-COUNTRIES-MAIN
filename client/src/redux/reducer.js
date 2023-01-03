@@ -10,16 +10,19 @@ import {
   GET_ACTIVITY,
   REMOVE_ACTIVITY,
   CLEAN_DETAIL,
-  RESET_COUNTRIES,
-  SET_CURRENT_PAGE,
+  ERROR_CASE,
+  LOADING,
+  // RESET_COUNTRIES,
+  // SET_CURRENT_PAGE,
 } from "./actions";
 
 const initialState = {
   allCountries: [], //donde guardo todos los paises de la api y los muestro apenas entra al home
   countries: [], //voy a hacer todos los filtrados con este array, paginado y la busqueda de la searchBar tambien
-  country: [], //para el detalle de cada pais
+  detail: [], //para el detalle de cada pais
   activities: [], //las actividades de cada pais
-  currentPage: 1, // en la pagina que arranca
+  error: "",
+  loading: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -31,19 +34,32 @@ const reducer = (state = initialState, action) => {
         //seteo tambien este apenas carga la pagina despues va ir cambiando con los filtrados!!
         allCountries: action.payload,
         //me sirve este para resetearlo cuando quiera volver a iniciar sin ningun filtro
+        error: "",
       };
 
     case GET_DETAIL:
       return {
         ...state,
-        country: action.payload,
+        detail: action.payload, //me guarda el objeto con la info de ese pais!
+        // loading: false,
       };
 
     case GET_COUNTRY_BY_NAME:
+      // const totalCountries = state.countries;
+      const inputSearchBar = action.payload; //me trae el pais que estoy buscando
+      const payContinent = action.payContinent; //me llega el continente en el que esta el filtro
+      const filter = inputSearchBar.filter(
+        (c) => c.contienent === payContinent
+      );
       return {
         ...state,
-        countries: action.payload,
-        currentPage: 1,
+        countries: payContinent !== "All" ? filter : action.payload,
+        error: "",
+      };
+
+    case POST_ACTIVITY:
+      return {
+        ...state,
       };
 
     case ORDER_BY_ALPHABET:
@@ -65,7 +81,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         countries: ordered,
-        currentPage: 1,
       };
 
     case FILTER_BY_CONTINENT:
@@ -77,12 +92,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         countries: filtered,
-        currentPage: 1,
       };
 
     case ORDER_BY_POPULATION:
       const order =
-        action.payload === "higher"
+        action.payload === "min"
           ? state.countries.sort((a, b) => {
               if (a.population > b.population) return 1;
               if (a.population < b.population) return -1;
@@ -96,7 +110,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         countries: order,
-        currentPage: 1,
       };
 
     case FILTER_BY_ACTIVITY:
@@ -113,17 +126,22 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         countries: filterAct,
-        currentPage: 1,
       };
-    case POST_ACTIVITY:
-      return {
-        ...state,
-        activities: [...state.activities, action.payload],
-      };
+    // const allActivities = state.activities;
+    // const filterAct =
+    //   action.payload === "All"
+    //     ? allActivities.filter((a) => a.activities.length > 0)
+    //     : allActivities.filter((e) =>
+    //         e.activities.find(
+    //           (element) => element.name.toLowerCase() === action.payload
+    //         )
+    //       );
+
     case GET_ACTIVITY:
       return {
         ...state,
         activities: [...action.payload],
+        loading: false,
       };
     case REMOVE_ACTIVITY:
       return {
@@ -137,18 +155,30 @@ const reducer = (state = initialState, action) => {
         ...state,
         country: [],
       };
-    case RESET_COUNTRIES:
-      const resetCountries = [...state.allCountries];
+    case ERROR_CASE:
       return {
         ...state,
-        countries: resetCountries,
-        currentPage: 1,
+        error: action.payload,
       };
-    case SET_CURRENT_PAGE:
+
+    case LOADING:
       return {
         ...state,
-        currentPage: action.payload,
+        loading: true,
       };
+
+    // case RESET_COUNTRIES:
+    //   const resetCountries = [...state.allCountries];
+    //   return {
+    //     ...state,
+    //     countries: resetCountries,
+    //     // currentPage: 1,
+    //   };
+    // case SET_CURRENT_PAGE:
+    //   return {
+    //     ...state,
+    //     currentPage: action.payload,
+    //   };
 
     //primero hacer el caso default por si no coincide con ninguna action--> devolver el estado como estaba
     default:
