@@ -38,6 +38,7 @@ function Home() {
   const [popOrder, setPopOrder] = useState("");
   const [continenOrder, setContinentOrder] = useState("");
   const [activity, setActivity] = useState("");
+  const [contFilter, setContFilter] = useState(""); //para mandar el continente al searchBar
 
   const indexLastCountries = currentPage * countriesPerPage;
   const indexFirstCountries = indexLastCountries - countriesPerPage;
@@ -53,6 +54,7 @@ function Home() {
   useEffect(() => {
     dispatch(getAllCountries()); //mapDispatchToProps
     dispatch(getActivity());
+    //me trae todas las actividades guardadas en mi bdd para poder elegir en el filtro
   }, [dispatch]);
 
   const handleClick = () => {
@@ -87,6 +89,7 @@ function Home() {
     dispatch(filterByContinent(value));
     setCurrentPage(1);
     setContinentOrder(value);
+    setContFilter(value); //actualiza el estado del filtro!! para mandar al searchBar
   };
 
   const handleFilterAct = (e) => {
@@ -107,7 +110,7 @@ function Home() {
             </Link>
           </div>
 
-          <SearchBar />
+          <SearchBar contFilter={contFilter} />
 
           <div className={styles.navDer}>
             <Link to="/home/createActivity">

@@ -9,55 +9,72 @@ import {
 import styles from "../Form/FormActivity.module.css";
 import back from "../../styles/Images/atras.png";
 
-const validate = (input) => {
+const validateName = (input) => {
   //funcion para validar la informacion q me llega desde el input
   let error = {};
   if (!input.name) {
     error.name = "Name is required";
   }
-  if (input.name.length > 250) {
+  if (input.name.length > 25) {
     error.name = "Name should be shorter";
   }
-  if (input.difficulty === 0 || input.difficulty === "Difficulty") {
+  return error;
+};
+
+const validateOthers = (input) => {
+  //funcion para validar la informacion q me llega desde el input
+  let error = {};
+  if (input.difficulty === "" || input.difficulty === "Difficulty") {
     error.difficulty = "Difficulty is needed";
   }
-  if (!input.duration || input.duration === "Duration") {
+  if (input.duration === "" || input.duration === "Duration") {
     error.duration = "Duration is needed";
   }
-  if (!input.season || input.season === "Seasons") {
+  if (input.season === "" || input.season === "Season") {
     error.season = "Season is needed";
   }
-  if (!input.countryId) {
-    error.countryId = "Country is needed";
-  }
+  // if (input.countryId === []) {
+  //   error.countryId = "Country is needed";
+  // }
   return error;
 };
 
 function FormActivity() {
   const dispatch = useDispatch();
   const totalCountries = useSelector((state) => state.countries);
-  const [input, setInput] = useState({
-    name: "",
-    difficulty: 0,
-    duration: "",
-    season: "",
-    countryId: [],
-    // countryId: [], //puden ser varios ids por que pueden repetirse actividades en 2 paises distintos
-    // countries: [],
-  });
-  const [error, setError] = useState({});
-  const history = useHistory(); //para que cuando se haya creado me vuelva a la ruta del home
-
-  const difficulty = ["Difficulty", "1", "2", "3", "4", "5"];
-  const duration = ["Duration", "30 min", "1 Hour", "2 Hours", "6 Hours"];
-  const seasons = ["Seasons", "Fall", "Winter", "Spring", "Summer"];
-
   //los ordeno de mayor a menor para el listado de paises cuando me haga elegir
   totalCountries.sort((a, b) => {
     if (a.name > b.name) return 1;
     if (a.name < b.name) return -1;
     return 0;
   });
+  const [error, setError] = useState({});
+  const history = useHistory(); //para que cuando se haya creado me vuelva a la ruta del home
+  const [input, setInput] = useState({
+    name: "",
+    difficulty: 0,
+    duration: "",
+    season: "",
+    countryId: [], //puden ser varios por que pueden repetirse actividades en 2 paises distintos
+  });
+
+  const difficulty = ["Difficulty", "1", "2", "3", "4", "5"];
+  const duration = ["Duration", "30 min", "1 Hour", "2 Hours", "6 Hours"];
+  const season = ["Season", "Fall", "Winter", "Spring", "Summer"];
+
+  useEffect(() => {
+    dispatch(getAllCountries());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getActivity());
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   setError(validateOthers(input));
+  // }, [input]);
+
+  console.log(input);
 
   const handleChangeName = (e) => {
     const value = e.target.value;
@@ -65,6 +82,12 @@ function FormActivity() {
       ...input,
       [e.target.name]: value,
     });
+    setError(
+      validateName({
+        ...error,
+        [e.target.name]: value,
+      })
+    );
   };
   const handleSelectDuration = (e) => {
     const value = e.target.value;
@@ -72,6 +95,12 @@ function FormActivity() {
       ...input,
       duration: value,
     });
+    setError(
+      validateOthers({
+        ...error,
+        duration: value,
+      })
+    );
   };
   const handleSelectDifficulty = (e) => {
     const value = e.target.value;
@@ -79,6 +108,12 @@ function FormActivity() {
       ...input,
       difficulty: value,
     });
+    setError(
+      validateOthers({
+        ...error,
+        difficulty: value,
+      })
+    );
   };
   const handleSelectSeason = (e) => {
     const value = e.target.value;
@@ -86,55 +121,52 @@ function FormActivity() {
       ...input,
       season: value,
     });
+    setError(
+      validateOthers({
+        ...error,
+        season: value,
+      })
+    );
   };
   const handleSelectCountry = (e) => {
-    const id = totalCountries.filter((c) => c.name === e.target.value)[0].id;
-    console.log(id);
-    // var id = totalCountries.filter((c) => c.name === value)[0].id; //le indico que me de el id del que coincida el nombre del value con el nombre del total de paises que me traigo del estado global
-    if (!id) {
-      setError({
+    const id = e.target.value;
+    setInput({
+      ...input,
+      countryId: [...input.countryId, id],
+    });
+    setError(
+      validateOthers({
         ...error,
-        countryId: "Country is needed",
-      });
-    } else {
-      setInput({
-        ...input,
-        countryId: [...input.countryId, id],
-        // countries: [...input.countries, value],
-      });
-    }
+        countryId: id,
+      })
+    );
+  };
+
+  const handleDelete = (e) => {
+    setInput({
+      ...input,
+      countryId: [
+        ...input.countryId.filter((c) => {
+          return c !== e;
+        }),
+      ],
+    });
   };
 
   const handleSubmit = (e) => {
-    e.preventDefaut();
+    e.preventDefault();
     //le indico que no me refresque la pag, me cambia el comportamiento normal del formulario
-    setError(validate(input)); // le paso el estado completo con las validaciones!
-    const errores = validate(input);
-    const arrayProperties = Object.values(errores); //Guardo en un array las propiedades
-    if (!arrayProperties.length) {
-      dispatch(postActivity(input)); //le mando el input --> todo este body con info
-      alert("Activity successfully created");
-      setInput({
-        name: "",
-        difficulty: 0,
-        duration: "",
-        season: "",
-        countryId: [],
-      });
-      history.push("/home");
-      dispatch(getActivity());
-    }
+    dispatch(postActivity(input));
+    setInput({
+      name: "",
+      difficulty: 0,
+      duration: "",
+      season: "",
+      countryId: [],
+    });
+    alert("Activity successfully created");
+    history.push("/home");
   };
-
-  useEffect(() => {
-    dispatch(getAllCountries());
-  }, [dispatch]);
-
-  useEffect(() => {
-    setError(validate(input));
-  }, [input]);
-
-  console.log(input);
 
   return (
     <div className={styles.contPag}>
@@ -154,28 +186,34 @@ function FormActivity() {
             <form onSubmit={(e) => handleSubmit(e)}>
               <div className={styles.form}>
                 <div>
-                  <label className={styles.name}>
-                    <b>Name:</b>
-                  </label>
+                  <label className={styles.label}>Activity:</label>
                   <input
                     type="text"
                     value={input.name} // le doy el valor del estado y viceversa mientras escribo en el input para binderalos doblemente, doble enlace
                     name="name"
-                    placeholder="Name"
+                    onChange={(e) => handleChangeName(e)}
+                    placeholder="Activity name"
                     autoComplete="off"
                     className={styles.inputs}
-                    onChange={(e) => handleChangeName(e)}
+                    required // para que cuando no este completo me salte que me falta completarlo
                   />
                   {error.name && <p className={styles.error}>{error.name}</p>}
                 </div>
 
                 <div>
+                  <label className={styles.label}>Duration:</label>
                   <select
                     onChange={(e) => handleSelectDuration(e)}
                     className={styles.selectBox}
+                    required
                   >
+                    <option value="" hidden>
+                      Choose an option
+                    </option>
                     {duration.map((duration) => (
-                      <option value={duration}>{duration}</option>
+                      <option value={duration} name="duration">
+                        {duration}
+                      </option>
                     ))}
                   </select>
                   {error.duration && (
@@ -184,12 +222,19 @@ function FormActivity() {
                 </div>
 
                 <div>
+                  <label className={styles.label}>Difficulty:</label>
                   <select
                     onChange={(e) => handleSelectDifficulty(e)}
                     className={styles.selectBox}
+                    required
                   >
+                    <option value="" hidden>
+                      Choose an option
+                    </option>
                     {difficulty.map((difficulty) => (
-                      <option value={difficulty}>{difficulty}</option>
+                      <option value={difficulty} name="difficulty">
+                        {difficulty}
+                      </option>
                     ))}
                   </select>
                   {error.difficulty && (
@@ -198,12 +243,19 @@ function FormActivity() {
                 </div>
 
                 <div>
+                  <label className={styles.label}>Season:</label>
                   <select
                     onChange={(e) => handleSelectSeason(e)}
                     className={styles.selectBox}
+                    required
                   >
-                    {seasons.map((season) => (
-                      <option value={season}>{season}</option>
+                    <option value="" hidden>
+                      Choose season
+                    </option>
+                    {season.map((season) => (
+                      <option value={season} name="season" key={season}>
+                        {season}
+                      </option>
                     ))}
                   </select>
                   {error.season && (
@@ -212,13 +264,21 @@ function FormActivity() {
                 </div>
 
                 <div>
+                  <label className={styles.label}>Country:</label>
                   <select
                     onChange={(e) => handleSelectCountry(e)}
                     className={styles.selectBox}
+                    required
                   >
-                    <option value="all">Countries</option>
+                    <option value="" hidden>
+                      Select Country
+                    </option>
                     {totalCountries.map((country) => (
-                      <option value={country.name} key={country.id}>
+                      <option
+                        value={country.id}
+                        name="countries"
+                        key={country.id}
+                      >
                         {country.name}
                       </option>
                     ))}
@@ -227,9 +287,28 @@ function FormActivity() {
                     <p className={styles.error}>{error.countryId}</p>
                   )}
                 </div>
+                <div>
+                  <ul>
+                    <li className={styles.countriesSelected}>
+                      {input.countryId.map((c) => {
+                        return (
+                          <div>
+                            {c}
+                            <button
+                              type="button"
+                              onClick={() => handleDelete(c)}
+                            >
+                              x
+                            </button>
+                          </div>
+                        );
+                      })}
+                    </li>
+                  </ul>
+                </div>
               </div>
               <button type="submit" className={styles.submitButton}>
-                CREATE
+                Create Activity
               </button>
             </form>
           </div>
@@ -240,3 +319,24 @@ function FormActivity() {
 }
 
 export default FormActivity;
+
+//  const handleSubmit = (e) => {
+//    e.preventDefaut();
+//    //le indico que no me refresque la pag, me cambia el comportamiento normal del formulario
+//    setError(validateOthers(input)); // le paso el estado completo con las validaciones!
+//    const errores = validateOthers(input);
+//    const arrayProperties = Object.values(errores); //Guardo en un array las propiedades
+//    if (!arrayProperties.length) {
+//      dispatch(postActivity(input)); //le mando el input --> todo este body con info
+//      alert("Activity successfully created");
+//      setInput({
+//        name: "",
+//        difficulty: 0,
+//        duration: "",
+//        season: "",
+//        countryId: [],
+//      });
+//      history.push("/home");
+//      dispatch(getActivity());
+//    }
+//  };
