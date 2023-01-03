@@ -13,7 +13,7 @@ function App() {
       <Switch>
         <Route path="/home/createActivity" component={FormActivity} />
 
-        <Route exact path="/home/:id" component={Detail} />
+        <Route exact path="/home/:countryId" component={Detail} />
 
         <Route exact path="/home" component={Home} />
 
