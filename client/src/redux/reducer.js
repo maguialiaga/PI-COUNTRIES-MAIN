@@ -18,7 +18,7 @@ import {
 
 const initialState = {
   allCountries: [], //donde guardo todos los paises de la api y los muestro apenas entra al home
-  countries: [], //voy a hacer todos los filtrados con este array, paginado y la busqueda de la searchBar tambien
+  countries: [], //voy a hacer todos los filtrados con este array, paginado y la busqueda del searchBar
   detail: [], //para el detalle de cada pais
   activities: [], //las actividades de cada pais
   error: "",
@@ -41,7 +41,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         detail: action.payload, //me guarda el objeto con la info de ese pais!
-        // loading: false,
+        loading: false,
       };
 
     case GET_COUNTRY_BY_NAME:

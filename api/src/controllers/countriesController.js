@@ -28,9 +28,11 @@ const getCountries = async (req, res) => {
 
 const getCountry = async (req, res) => {
   const { id } = req.params;
+  console.log(req.params, "llega el param");
   //const allCountries = await uploadCountry();
   try {
     if (id) {
+      console.log(id, "ID LLEGA");
       //esto es redundante por que si o si va a tener id para entrar a esta ruta
 
       // const countryId = await allCountries.find((country) =>
@@ -39,10 +41,10 @@ const getCountry = async (req, res) => {
       const countryId = await Country.findByPk(id.toUpperCase(), {
         include: Activity,
       });
-
+      console.log(countryId, "country");
       countryId
         ? res.status(200).send(countryId)
-        : res.status(400).send("Country Id not found");
+        : res.status(404).send("Country Id not found");
     }
   } catch (error) {
     res.status(400).json({ error: error.message });

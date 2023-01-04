@@ -30,10 +30,12 @@ export const getAllCountries = () => {
 };
 
 export const getDetail = (id) => {
+  console.log(id, "id desde action");
   return async function (dispatch) {
     try {
-      dispatch({ type: LOADING });
+      // dispatch({ type: LOADING });
       const response = await axios.get(`http://localhost:3001/countries/${id}`);
+      console.log(response, "response action");
       return dispatch({
         type: GET_DETAIL,
         payload: response.data,
