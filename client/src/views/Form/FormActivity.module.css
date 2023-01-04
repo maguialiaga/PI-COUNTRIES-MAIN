@@ -1,0 +1,50 @@
+.contPag {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.navBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #9fd3c7;
+  max-height: 3rem;
+  padding: 0.5rem;
+}
+
+.contGral {
+}
+
+.arrowBack {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  max-width: 5%;
+  padding: 1rem;
+}
+
+.title {
+}
+
+.cardForm {
+}
+
+.form {
+}
+
+.inputs {
+}
+
+.name {
+}
+
+.selectBox {
+}
+
+.submitButton {
+}
+
+.error {
+}

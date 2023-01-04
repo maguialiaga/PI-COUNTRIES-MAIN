@@ -1,0 +1,43 @@
+.contPag {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.navBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: left;
+  background-color: #9fd3c7;
+  max-height: 3rem;
+  padding: 0.5rem;
+}
+
+.navIzq {
+  min-height: 3rem;
+  max-height: 50rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrowBack {
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  max-width: 5%;
+  padding: 1rem;
+}
+
+.cardForm {
+}
+
+.contGral {
+}
+
+.act {
+}
+
+.title {
+}
