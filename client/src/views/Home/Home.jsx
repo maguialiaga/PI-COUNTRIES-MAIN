@@ -8,8 +8,6 @@ import {
   filterByContinent,
   filterByActivity,
   getActivity,
-  // setCurrentPage,
-  // resetCountries,
 } from "../../redux/actions";
 
 import CountryCard from "../../components/CountryCard/CountryCard";
@@ -17,6 +15,7 @@ import Loading from "../../components/Loading/Loading";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import Paginado from "../../components/Paginado/Paginado";
 import styles from "../Home/Home.module.css";
+import Error from "../Error/Error";
 //import world from "../../styles/Images/world.png";
 //import refresh from "../../styles/Images/refresh.png";
 import back from "../../styles/Images/atras.png";
@@ -25,11 +24,10 @@ function Home() {
   const dispatch = useDispatch();
 
   //Me traigo del estado global:
-  // const currentPage = useSelector((state) => state.currentPage);
   const totalAct = useSelector((state) => state.activities);
   const allCountries = useSelector((state) => state.countries);
+  const error = useSelector((state) => state.error); //hacer caso de error cuando no existe el pais
 
-  //Ahora creo los estados locales
   const [currentPage, setCurrentPage] = useState(1);
   const [countriesPerPage, setCountriesPerPage] = useState(9); //cantidad de paises por pagina = 9
 
@@ -40,8 +38,8 @@ function Home() {
   const [activity, setActivity] = useState("");
   const [contFilter, setContFilter] = useState(""); //para mandar el continente al searchBar
 
-  const indexLastCountries = currentPage * countriesPerPage;
-  const indexFirstCountries = indexLastCountries - countriesPerPage;
+  const indexLastCountries = currentPage * countriesPerPage; //9
+  const indexFirstCountries = indexLastCountries - countriesPerPage; // 0
   const currentCountries = allCountries.slice(
     indexFirstCountries,
     indexLastCountries
@@ -99,7 +97,6 @@ function Home() {
     setActivity(value);
   };
 
-  //----------------------------------------------------------------------------------------------------------
   return (
     <div className={styles.contHome}>
       <div>
@@ -204,7 +201,9 @@ function Home() {
           />
         </div>
         <div className={styles.contCards}>
-          {currentCountries.length ? (
+          {error ? (
+            <Error />
+          ) : currentCountries.length ? (
             currentCountries.map((c) => {
               return (
                 <CountryCard
@@ -235,27 +234,3 @@ function Home() {
 }
 
 export default Home;
-
-/* <div className={styles.div_countries}>
-          {currentCountries > 0 ? (
-            currentCountries.map((country) => {
-              return (
-                <CountryCard
-                  name={country.name}
-                  image={country.image}
-                  continent={country.continent}
-                  id={country.id}
-                />
-              );
-            })
-          ) : countriesCopy < 0 ? (
-            <Loading />
-          ) : (
-            <div>
-              <p>
-                <b>There are no countries with those features</b>
-              </p>
-            </div>
-          )}
-        </div>
-*/

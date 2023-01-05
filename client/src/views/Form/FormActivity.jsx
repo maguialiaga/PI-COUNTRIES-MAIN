@@ -195,7 +195,7 @@ function FormActivity() {
                     placeholder="Activity name"
                     autoComplete="off"
                     className={styles.inputs}
-                    required // para que cuando no este completo me salte que me falta completarlo
+                    required // para que cuando no este completo me salte al submitear -> me falta completarlo
                   />
                   {error.name && <p className={styles.error}>{error.name}</p>}
                 </div>

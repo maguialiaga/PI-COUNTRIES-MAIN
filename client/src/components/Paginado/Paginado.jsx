@@ -57,22 +57,6 @@ export default function Paginado({
   //10 paises por pagina ---> la primera arranca con 9
   //guardar en una variable el numero de paginas
 
-
-  //indice del ultimo pais por pagina
-  const lastCountry = (currentPage) => {
-    if (currentPage === 1) return 9;
-    return currentPage * countryPerPage - 1;
-  };
-  //indice del primer pais por pagina
-  const firstCountry = (lastCountry, countryPerPage) => {
-    if (currentPage === 1) return 0;
-    return lastCountry - countryPerPage;
-  };
-
-  //Arreglo de paises por pagina
-  const currentCountries = allCountries.slice(firstCountry, lastCountry);
-  const paginado = (pageNum) => setCurrentPage(pageNum);
-
 */
 
 //NO ANDA

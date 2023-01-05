@@ -11,8 +11,8 @@ function LandingPage() {
         <div className={styles.contTitle}>
           <div className={styles.title}>Take a look at the world...</div>
           <div className={styles.parrafo}>
-            Come and see countries from all over the word, their specific
-            characteristics and create new features!
+            Come and see countries from all over the word and create new
+            features!
           </div>
         </div>
 

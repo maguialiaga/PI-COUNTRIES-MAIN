@@ -1,26 +1,35 @@
-import React from "react";
-import styles from "../Detail/CountryDetail.module.css";
+import { React } from "react";
+import styles from "../Detail/ActivityDetail.module.css";
 
-//faltan estilos
+function ActivityDetail(countryWithActivity) {
+  // console.log(countryWithActivity, "llega al activity"); //es un array con las distintas {} act del pais
 
-function ActivityDetail({ name, difficulty, duration, season }) {
   return (
-    <section className={styles.section}>
-      <h3 className={styles.name}>{name}</h3>
-
-      <p className={styles.p}>
-        <b>Difficulty</b>
-        {difficulty}
-      </p>
-      <p className={styles.p}>
-        <b>Duration</b>
-        {duration}
-      </p>
-      <p className={styles.p}>
-        <b>Season</b>
-        {season}
-      </p>
-    </section>
+    <div className={styles.contGral}>
+      {countryWithActivity ? (
+        countryWithActivity.countryWithActivity.map((act) => {
+          return (
+            <section className={styles.cardForm}>
+              <h3 className={styles.name}>{act.name}</h3>
+              <p className={styles.p}>
+                <b>Difficulty</b>
+                <p>{act.difficulty}</p>
+              </p>
+              <p className={styles.p}>
+                <b>Duration</b>
+                <p> {act.duration}</p>
+              </p>
+              <p className={styles.p}>
+                <b>Season</b>
+                <p>{act.season}</p>
+              </p>
+            </section>
+          );
+        })
+      ) : (
+        <p>This country has no activities</p>
+      )}
+    </div>
   );
 }
 
