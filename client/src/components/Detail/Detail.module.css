@@ -30,14 +30,52 @@
   padding: 1rem;
 }
 
+.orderCards {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .cardForm {
+  background: #ececec;
+  min-height: 20rem;
+  max-height: 30rem;
+  border-radius: 20px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 20rem;
+  padding-bottom: 3rem;
 }
 
 .contGral {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px;
+  height: 100%;
+  width: 95%;
+}
+
+.titleAct {
+  font-family: sans-serif;
+  text-align: center;
+  margin: 30px;
+  font-weight: 600;
 }
 
 .act {
 }
 
-.title {
+.name {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.flag {
+  max-width: 40%;
+  padding: 1rem;
 }
