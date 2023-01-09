@@ -8,6 +8,7 @@ import {
   filterByContinent,
   filterByActivity,
   getActivity,
+  filterByPop,
 } from "../../redux/actions";
 
 import CountryCard from "../../components/CountryCard/CountryCard";
@@ -95,6 +96,12 @@ function Home() {
     dispatch(filterByActivity(value));
     setCurrentPage(1);
     setActivity(value);
+  };
+
+  const handleFilterMinPop = (e) => {
+    const value = e.target.value;
+    dispatch(filterByPop(value));
+    setCurrentPage(1);
   };
 
   return (
@@ -188,6 +195,12 @@ function Home() {
               {totalAct.map((act) => {
                 return <option value={act.name}>{act.name}</option>;
               })}
+            </select>
+            <select onChange={(e) => handleFilterMinPop(e)}>
+              <option value="All" key="All">
+                Population
+              </option>
+              <option value="Lower">Lower Population</option>
             </select>
           </div>
         </div>

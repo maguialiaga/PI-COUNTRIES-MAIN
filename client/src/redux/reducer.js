@@ -12,6 +12,7 @@ import {
   CLEAN_DETAIL,
   ERROR_CASE,
   LOADING,
+  FILTER_POP,
   // RESET_COUNTRIES,
   // SET_CURRENT_PAGE,
 } from "./actions";
@@ -92,6 +93,15 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         countries: filtered,
+      };
+
+    case FILTER_POP:
+      const countries = state.countries;
+      const popFilter = countries.filter((c) => c.population < "2000000");
+      const filterCountry = action.payload === "All" ? countries : popFilter;
+      return {
+        ...state,
+        countries: filterCountry,
       };
 
     case ORDER_BY_POPULATION:

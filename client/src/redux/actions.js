@@ -14,6 +14,7 @@ export const CLEAN_DETAIL = "CLEAN_DETAIL";
 export const POST_ACTIVITY = "POST_ACTIVITY";
 export const ERROR_CASE = "ERROR_CASE";
 export const LOADING = "LOADING";
+export const FILTER_POP = "FILTER_POP";
 // export const RESET_COUNTRIES = "RESET_COUNTRIES";
 // export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 
@@ -77,6 +78,10 @@ export const filterByContinent = (payload) => {
 
 export const filterByActivity = (payload) => {
   return { type: FILTER_BY_ACTIVITY, payload };
+};
+
+export const filterByPop = (payload) => {
+  return { type: FILTER_POP, payload };
 };
 
 export const postActivity = (payload) => {
